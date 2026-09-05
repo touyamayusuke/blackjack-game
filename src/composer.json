@@ -1,0 +1,26 @@
+{
+    "name": "root/html",
+    "autoload": {
+        "psr-4": {
+            "Blackjack\\": "src/Blackjack/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Blackjack\\Tests\\": "tests/Blackjack/"
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^4.0",
+        "phpmd/phpmd" : "@stable",
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^13"
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=PSR12 src/",
+        "phpcbf": "phpcbf --standard=PSR12 src/",
+        "phpmd": "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+        "phpstan": "phpstan analyse src/ -c phpstan.neon",
+        "phpunit": "phpunit"
+    }
+}

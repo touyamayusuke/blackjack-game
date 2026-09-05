@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Blackjack\Deck;
+use Blackjack\Game;
+use Blackjack\Judge;
+use Blackjack\Io\ConsoleInput;
+use Blackjack\Io\ConsoleOutput;
+
+$deck = new Deck();
+$deck->shuffle();
+
+$game = new Game(
+    $deck,
+    new ConsoleInput(),
+    new ConsoleOutput(),
+    new Judge(),
+);
+
+$game->play();

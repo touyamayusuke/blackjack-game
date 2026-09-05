@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<ruleset name="Custom PHPMD rule set"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                     http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="
+                     http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>
+        全 6 カテゴリを取り込んだ一通りの ruleset。
+        しきい値やノイズの多いルールだけ個別に調整しています。
+    </description>
+
+    <!-- ============================================================
+         Clean Code Rules
+         ============================================================ -->
+    <rule ref="rulesets/cleancode.xml">
+        <!-- static factory や DI 未導入のうちは誤検知が多いので除外 -->
+        <exclude name="StaticAccess" />
+    </rule>
+
+    <!-- ============================================================
+         Code Size Rules（しきい値を明示）
+         ============================================================ -->
+    <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
+        <properties>
+            <property name="reportLevel" value="10" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/NPathComplexity">
+        <properties>
+            <property name="minimum" value="200" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
+        <properties>
+            <property name="minimum" value="80" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveClassLength">
+        <properties>
+            <property name="minimum" value="800" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+        <properties>
+            <property name="minimum" value="6" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessivePublicCount">
+        <properties>
+            <property name="minimum" value="25" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyFields">
+        <properties>
+            <property name="maxfields" value="15" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="25" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <properties>
+            <property name="maxmethods" value="15" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity">
+        <properties>
+            <property name="maximum" value="60" />
+        </properties>
+    </rule>
+
+    <!-- ============================================================
+         Controversial Rules
+         ============================================================ -->
+    <rule ref="rulesets/controversial.xml">
+        <!-- キャメルケースの引数・変数はプロジェクト規約上許容 -->
+        <exclude name="CamelCaseParameterName" />
+        <exclude name="CamelCaseVariableName" />
+    </rule>
+
+    <!-- ============================================================
+         Design Rules
+         ============================================================ -->
+    <rule ref="rulesets/design.xml">
+        <exclude name="CouplingBetweenObjects" />
+    </rule>
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="maximum" value="20" />
+        </properties>
+    </rule>
+
+    <!-- ============================================================
+         Naming Rules
+         ============================================================ -->
+    <rule ref="rulesets/naming.xml">
+        <exclude name="ShortVariable" />
+        <exclude name="LongVariable" />
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum" value="3" />
+            <property name="exceptions" value="i,j,k,e,id,ok,x,y,db" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="35" />
+        </properties>
+    </rule>
+
+    <!-- ============================================================
+         Unused Code Rules
+         ============================================================ -->
+    <rule ref="rulesets/unusedcode.xml" />
+
+</ruleset>
