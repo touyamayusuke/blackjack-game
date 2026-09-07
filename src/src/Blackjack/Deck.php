@@ -13,13 +13,8 @@ use Blackjack\Card\Suit;
  */
 final class Deck
 {
-    /** @var list<Card> */
     private array $cards;
 
-    /**
-     * @param list<Card>|null $cards テストで並び順を固定したいときに指定する。
-     *                               null の場合は標準の52枚を生成する。
-     */
     public function __construct(?array $cards = null)
     {
         // （null なら Suit::cases() × Rank::cases() で52枚生成）
@@ -64,8 +59,6 @@ final class Deck
 
     /**
      * 現在の山札を返す。
-     *
-     * @return list<Card>
      */
     public function cards(): array
     {

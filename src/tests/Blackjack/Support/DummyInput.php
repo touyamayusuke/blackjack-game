@@ -9,11 +9,8 @@ use Blackjack\Io\Input;
 /**
  * テスト用の Input。あらかじめ積んだ応答を readLine() で順に返す。
  */
-final class FakeInput implements Input
+final class DummyInput implements Input
 {
-    /**
-     * @param list<string> $responses readLine() が先頭から順に返す応答
-     */
     public function __construct(private array $responses = [])
     {
     }
@@ -21,7 +18,7 @@ final class FakeInput implements Input
     public function readLine(): string
     {
         if ($this->responses === []) {
-            throw new \RuntimeException('FakeInput has no more queued responses.');
+            throw new \RuntimeException('DummyInput has no more queued responses.');
         }
 
         return array_shift($this->responses);

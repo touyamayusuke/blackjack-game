@@ -8,6 +8,7 @@ use Blackjack\Io\Input;
 use Blackjack\Io\Output;
 use Blackjack\Participant\Dealer;
 use Blackjack\Participant\Player;
+use Blackjack\Participant\CpuPlayer;
 
 /**
  * ゲーム全体の進行役。配札・プレイヤーのターン・ディーラーのターン・勝敗表示をまとめる。
@@ -35,35 +36,56 @@ final class Game
     {
         $this->output->writeLine(Messages::start());
 
+        $this->output->writeLine(Messages::askPlayerCount());
+        $cpuPlayerCount = (int)$this->input->readLine();
+
+        $players = [];
         $player = new Player('あなた', new Hand(), $this->input);
+        $players[] = $player;
         $dealer = new Dealer(new Hand());
-
-        $player->receive($this->deck->draw());
-        $dealer->receive($this->deck->draw());
-        $player->receive($this->deck->draw());
-        $dealer->receive($this->deck->draw());
-
-        $this->output->writeLine(Messages::drewCard($player->name(), $player->hand()->cards()[0]->label()));
-        $this->output->writeLine(Messages::drewCard($player->name(), $player->hand()->cards()[1]->label()));
-        $this->output->writeLine(Messages::drewCard($dealer->name(), $dealer->hand()->cards()[0]->label()));
-        $this->output->writeLine(Messages::hiddenSecondCard());
-        $this->output->writeLine(Messages::currentScore($player->name(), $player->score()));
-        $this->output->writeLine(Messages::askHit());
-
-        while ($player->wantsToNewCard()) {
-            $card = $this->deck->draw();
-            $player->receive($card);
-            $this->output->writeLine(Messages::drewCard($player->name(), $card->label()));
-            $this->output->writeLine(Messages::currentScore($player->name(), $player->score()));
-
-            if ($player->isBust()) {
-                break;
-            }
-
-            $this->output->writeLine(Messages::askHit());
+        for ($i = 1; $i < $cpuPlayerCount; $i++) {
+            $cpuPlayer = new CpuPlayer('CPU' . ($i), new Hand());
+            $players[] = $cpuPlayer;
         }
 
-        if (!$player->isBust()) {
+        foreach ($players as $p) {
+            $p->receive($this->deck->draw());
+        }
+        $dealer->receive($this->deck->draw());
+        foreach ($players as $p) {
+            $p->receive($this->deck->draw());
+        }
+        $dealer->receive($this->deck->draw());
+
+        foreach ($players as $player) {
+                $this->output->writeLine(Messages::drewCard($player->name(), $player->hand()->cards()[0]->label()));
+                $this->output->writeLine(Messages::drewCard($player->name(), $player->hand()->cards()[1]->label()));
+        }
+        $this->output->writeLine(Messages::drewCard($dealer->name(), $dealer->hand()->cards()[0]->label()));
+        $this->output->writeLine(Messages::hiddenSecondCard($dealer->name()));
+
+        foreach ($players as $player) {
+            if ($player instanceof Player) {
+                $this->output->writeLine(Messages::currentScore($player->name(), $player->score()));
+                $this->output->writeLine(Messages::askHit());
+            }
+
+            while ($player->wantsToNewCard()) {
+                $card = $this->deck->draw();
+                $player->receive($card);
+                $this->output->writeLine(Messages::drewCard($player->name(), $card->label()));
+                $this->output->writeLine(Messages::currentScore($player->name(), $player->score()));
+                if ($player->isBust()) {
+                    break;
+                }
+                if ($player instanceof Player) {
+                    $this->output->writeLine(Messages::askHit());
+                }
+            }
+        }
+
+        $anyoneAlive = array_filter($players, fn($p) => !$p->isBust()) !== [];
+        if ($anyoneAlive) {
             $this->output->writeLine(Messages::revealedSecondCard($dealer->hand()->cards()[1]->label()));
             $this->output->writeLine(Messages::currentScore($dealer->name(), $dealer->score()));
 
@@ -75,10 +97,14 @@ final class Game
             }
         }
 
-        $outcome = $this->judge->decide($player, $dealer);
-        $this->output->writeLine(Messages::finalScore($player->name(), $player->score()));
+        foreach ($players as $p) {
+            $this->output->writeLine(Messages::finalScore($p->name(), $p->score()));
+        }
         $this->output->writeLine(Messages::finalScore($dealer->name(), $dealer->score()));
-        $this->output->writeLine(Messages::result($outcome));
+        foreach ($players as $p) {
+            $outcome = $this->judge->decide($p, $dealer);
+            $this->output->writeLine(Messages::result($p->name(), $outcome));
+        }
         $this->output->writeLine(Messages::end());
     }
 }

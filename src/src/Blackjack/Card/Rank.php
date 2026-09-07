@@ -46,8 +46,9 @@ enum Rank
     }
 
     /**
-     * カードの点数を返す。
-     * ステップ1: A=1、2〜9=書かれた数、10/J/Q/K=10。
+     * カードの基準点を返す。A の基準点は1点。
+     * ステップ2: A を11点として扱ってよいかどうかは手札全体に依存するため、
+     * その判断（1点/11点のどちらを採用するか）は Hand::score() 側が行う。
      */
     public function point(): int
     {
@@ -63,5 +64,14 @@ enum Rank
             self::NINE => 9,
             self::TEN, self::JACK, self::QUEEN, self::KING => 10,
         };
+    }
+
+    /**
+     * このランクが A (ACE) かどうかを返す。
+     * ステップ2: Hand::score() が「A を11点に昇格できるか」を判断する際に使う。
+     */
+    public function isAce(): bool
+    {
+        return $this === self::ACE;
     }
 }

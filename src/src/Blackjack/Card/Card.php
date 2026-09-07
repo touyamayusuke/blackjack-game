@@ -30,4 +30,12 @@ final readonly class Card
     {
         return $this->rank->point();
     }
+
+    /**
+     * このカードが A (ACE) かどうかを返す（Rank に委譲）。
+     */
+    public function isAce(): bool
+    {
+        return $this->rank->isAce();
+    }
 }

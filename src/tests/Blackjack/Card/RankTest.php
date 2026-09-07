@@ -29,9 +29,19 @@ final class RankTest extends TestCase
         self::assertSame(10, Rank::KING->point());
     }
 
-    public function testAceScoresOneInStepOne(): void
+    public function testAceBasePointIsOne(): void
     {
         self::assertSame(1, Rank::ACE->point());
+    }
+
+    public function testIsAceReturnsTrueOnlyForAce(): void
+    {
+        self::assertTrue(Rank::ACE->isAce());
+        self::assertFalse(Rank::TWO->isAce());
+        self::assertFalse(Rank::TEN->isAce());
+        self::assertFalse(Rank::JACK->isAce());
+        self::assertFalse(Rank::QUEEN->isAce());
+        self::assertFalse(Rank::KING->isAce());
     }
 
     public function testLabelReturnsDisplayString(): void

@@ -52,4 +52,45 @@ final class HandTest extends TestCase
 
         self::assertFalse($hand->isBust());
     }
+
+    public function testAceCountsAsElevenWhenItFitsUnderTwentyOne(): void
+    {
+        $hand = new Hand();
+        $hand->add(new Card(Suit::HEART, Rank::ACE));
+        $hand->add(new Card(Suit::SPADE, Rank::KING));
+
+        self::assertSame(21, $hand->score());
+    }
+
+    public function testAceCountsAsOneWhenElevenWouldBust(): void
+    {
+        $hand = new Hand();
+        $hand->add(new Card(Suit::HEART, Rank::ACE));
+        $hand->add(new Card(Suit::SPADE, Rank::KING));
+        $hand->add(new Card(Suit::DIAMOND, Rank::FIVE));
+
+        self::assertSame(16, $hand->score());
+    }
+
+    public function testOnlyOneAceCountsAsElevenWhenTwoAcesPresent(): void
+    {
+        $hand = new Hand();
+        $hand->add(new Card(Suit::HEART, Rank::ACE));
+        $hand->add(new Card(Suit::SPADE, Rank::ACE));
+        $hand->add(new Card(Suit::DIAMOND, Rank::NINE));
+
+        self::assertSame(21, $hand->score());
+    }
+
+    public function testAllAcesCountAsOneWhenElevenWouldAlwaysBust(): void
+    {
+        $hand = new Hand();
+        $hand->add(new Card(Suit::HEART, Rank::ACE));
+        $hand->add(new Card(Suit::SPADE, Rank::ACE));
+        $hand->add(new Card(Suit::DIAMOND, Rank::ACE));
+        $hand->add(new Card(Suit::CLUB, Rank::ACE));
+        $hand->add(new Card(Suit::HEART, Rank::KING));
+
+        self::assertSame(14, $hand->score());
+    }
 }

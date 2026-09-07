@@ -11,7 +11,6 @@ use Blackjack\Io\Output;
  */
 final class SpyOutput implements Output
 {
-    /** @var list<string> */
     private array $lines = [];
 
     public function writeLine(string $line): void
@@ -21,8 +20,6 @@ final class SpyOutput implements Output
 
     /**
      * これまでに出力された行を返す。
-     *
-     * @return list<string>
      */
     public function lines(): array
     {

@@ -13,7 +13,7 @@ use Blackjack\Judge;
 use Blackjack\Outcome;
 use Blackjack\Participant\Dealer;
 use Blackjack\Participant\Player;
-use Blackjack\Tests\Support\FakeInput;
+use Blackjack\Tests\Support\DummyInput;
 
 final class JudgeTest extends TestCase
 {
@@ -23,7 +23,7 @@ final class JudgeTest extends TestCase
         $playerHand->add(new Card(Suit::HEART, Rank::TEN));
         $playerHand->add(new Card(Suit::HEART, Rank::SIX));
         $playerHand->add(new Card(Suit::HEART, Rank::SEVEN)); // 10+6+7=23 → バースト
-        $player = new Player('テストプレイヤー', $playerHand, new FakeInput([]));
+        $player = new Player('テストプレイヤー', $playerHand, new DummyInput([]));
 
         $dealerHand = new Hand();
         $dealerHand->add(new Card(Suit::SPADE, Rank::TEN));
@@ -40,7 +40,7 @@ final class JudgeTest extends TestCase
         $playerHand = new Hand();
         $playerHand->add(new Card(Suit::HEART, Rank::TEN));
         $playerHand->add(new Card(Suit::HEART, Rank::SIX));
-        $player = new Player('テストプレイヤー', $playerHand, new FakeInput([]));
+        $player = new Player('テストプレイヤー', $playerHand, new DummyInput([]));
 
         $dealerHand = new Hand();
         $dealerHand->add(new Card(Suit::SPADE, Rank::TEN));
@@ -59,7 +59,7 @@ final class JudgeTest extends TestCase
         $playerHand->add(new Card(Suit::HEART, Rank::TEN));
         $playerHand->add(new Card(Suit::HEART, Rank::SIX));
         $playerHand->add(new Card(Suit::HEART, Rank::FOUR));
-        $player = new Player('テストプレイヤー', $playerHand, new FakeInput([]));
+        $player = new Player('テストプレイヤー', $playerHand, new DummyInput([]));
 
         $dealerHand = new Hand();
         $dealerHand->add(new Card(Suit::SPADE, Rank::TEN));
@@ -76,7 +76,7 @@ final class JudgeTest extends TestCase
         $playerHand = new Hand();
         $playerHand->add(new Card(Suit::HEART, Rank::TEN));
         $playerHand->add(new Card(Suit::HEART, Rank::FIVE));
-        $player = new Player('テストプレイヤー', $playerHand, new FakeInput([]));
+        $player = new Player('テストプレイヤー', $playerHand, new DummyInput([]));
 
         $dealerHand = new Hand();
         $dealerHand->add(new Card(Suit::SPADE, Rank::TEN));
@@ -93,7 +93,7 @@ final class JudgeTest extends TestCase
         $playerHand = new Hand();
         $playerHand->add(new Card(Suit::HEART, Rank::TEN));
         $playerHand->add(new Card(Suit::HEART, Rank::FIVE));
-        $player = new Player('テストプレイヤー', $playerHand, new FakeInput([]));
+        $player = new Player('テストプレイヤー', $playerHand, new DummyInput([]));
 
         $dealerHand = new Hand();
         $dealerHand->add(new Card(Suit::SPADE, Rank::TEN));

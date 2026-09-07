@@ -17,6 +17,11 @@ final class Messages
         return 'ブラックジャックを開始します。';
     }
 
+    public static function askPlayerCount(): string
+    {
+        return 'プレイヤーの人数を入力してください。(1-3)';
+    }
+
     /**
      * 「{name}の引いたカードは{card}です。」
      */
@@ -28,9 +33,9 @@ final class Messages
     /**
      * 「ディーラーの引いた2枚目のカードはわかりません。」
      */
-    public static function hiddenSecondCard(): string
+    public static function hiddenSecondCard(string $name): string
     {
-        return 'ディーラーの引いた2枚目のカードはわかりません。';
+        return $name . 'の引いた2枚目のカードはわかりません。';
     }
 
     /**
@@ -68,12 +73,12 @@ final class Messages
     /**
      * 「あなたの勝ちです！」など、勝敗の結果文。
      */
-    public static function result(Outcome $outcome): string
+    public static function result(string $name, Outcome $outcome): string
     {
         return match ($outcome) {
-            Outcome::WIN => 'あなたの勝ちです！',
-            Outcome::LOSE => 'あなたの負けです…。',
-            Outcome::DRAW => '引き分けです。',
+            Outcome::WIN => $name . 'は勝ちです！',
+            Outcome::LOSE => $name . 'は負けです…。',
+            Outcome::DRAW => $name . 'は引き分けです。',
         };
     }
 
