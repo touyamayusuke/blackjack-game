@@ -1,0 +1,157 @@
+/*
+ * 見た目だけ。ロジックは app.js。
+ * 配色は「明るい/暗い」どちらでも読めるよう、色は最小限にしている。
+ */
+
+:root {
+  color-scheme: light dark;
+  --line: #8884;
+  --accent: #3b82f6;
+  --bust: #ef4444;
+  --win: #16a34a;
+  --lose: #ef4444;
+  --draw: #a16207;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+/* --- エラー表示 --- */
+#error {
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  border: 1px solid var(--bust);
+  border-radius: 6px;
+  color: var(--bust);
+  font-size: 0.9rem;
+}
+
+/* --- セットアップ --- */
+#setup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* --- 対戦テーブル --- */
+#table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.participant {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.participant--bust {
+  border-color: var(--bust);
+}
+
+.participant__name {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.participant--bust .participant__name::after {
+  content: " — バースト";
+  color: var(--bust);
+  font-weight: 400;
+}
+
+.hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card {
+  display: inline-block;
+  min-width: 3.5em;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+  background: #8881;
+}
+
+.card--hidden {
+  color: transparent;
+  background: repeating-linear-gradient(45deg, #8883, #8883 4px, transparent 4px, transparent 8px);
+}
+
+/* --- 操作ボタン --- */
+#actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- 結果 --- */
+#result {
+  margin-bottom: 20px;
+}
+
+.result-line {
+  margin: 4px 0;
+  font-weight: 700;
+}
+
+.result-line--win {
+  color: var(--win);
+}
+
+.result-line--lose {
+  color: var(--lose);
+}
+
+.result-line--draw {
+  color: var(--draw);
+}
+
+/* --- ログ --- */
+#log-area h2 {
+  font-size: 1rem;
+}
+
+#log {
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #8881;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
